@@ -85,7 +85,6 @@ export default function Dropzone(props) {
 
   return (
     <div>
-      {imageLoaded ? <div>loaded</div> : <div>notloaded</div>}
       <div className={styles.dropzoneContainer}>
         <div
           {...getRootProps({
