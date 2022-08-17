@@ -44,7 +44,7 @@ export default function Dropzone(props) {
     useDropzone({ onDrop });
 
   const showPreveiw = props.previewImage?.map((file) => (
-    <div className={styles.previewImageContainer}>
+    <div key={file.preview} className={styles.previewImageContainer}>
       <div className={styles.previewNoteContainer}>
         <div className={styles.previewModeDot}></div>
         <div>preview</div>
