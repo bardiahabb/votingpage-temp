@@ -16,6 +16,7 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 export default function Dropzone(props) {
   const [dropedImages, setDropedImages] = useState([]);
   const [firebaseImage, setFirebaseImage] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const downloadImages = async () => {
     const imageURLRef = doc(db, "images", props.votingPageID);
@@ -49,22 +50,42 @@ export default function Dropzone(props) {
         <div className={styles.previewModeDot}></div>
         <div>preview</div>
       </div>
-      <img src={file.preview} style={{ width: "100%" }} alt="" />
+      <img
+        src={file.preview}
+        style={{ maxWidth: "100%", height: "auto" }}
+        alt=""
+      />
     </div>
   ));
 
+  const imageLoadHandle = () => {
+    setImageLoaded(true);
+  };
+
   const showOnVoteImage = (
-    <div className={styles.previewImageContainer}>
-      <div className={styles.previewNoteContainer}>
+    <div className={styles.realImageContainer}>
+      <div
+        className={
+          imageLoaded
+            ? styles.realNoteContainer
+            : styles.realNoteContainerHidden
+        }
+      >
         <div className={styles.votingModeDot}></div>
         <div>voting</div>
       </div>
-      <img src={props.firebaseImage} style={{ width: "100%" }} alt="" />
+      <img
+        onLoad={imageLoadHandle}
+        src={props.firebaseImage}
+        className={imageLoaded ? styles.imageLoaded : styles.imagenotLoaded}
+        alt=""
+      />
     </div>
   );
 
   return (
     <div>
+      {imageLoaded ? <div>loaded</div> : <div>notloaded</div>}
       <div className={styles.dropzoneContainer}>
         <div
           {...getRootProps({
