@@ -45,7 +45,8 @@
 .previewNoteContainer{
   position: absolute;
   display: flex;
-  background-color: rgba(0,0,0,0.05);
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(2px);
   border-radius: 30px;
   padding-bottom: 6px;
   padding-left: 10px;
@@ -62,6 +63,15 @@
   height: 9px;
   border-radius: 50px;
   background-image: radial-gradient(rgb(255, 115, 0) , rgba(0,0,0,0) );
+  display: block;
+  margin-right: 6px;
+}
+
+.votingModeDot{
+  width: 9px;
+  height: 9px;
+  border-radius: 50px;
+  background-image: radial-gradient(rgb(0, 255, 136) , rgba(0,0,0,0) );
   display: block;
   margin-right: 6px;
 }

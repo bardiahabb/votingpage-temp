@@ -53,6 +53,16 @@ export default function Dropzone(props) {
     </div>
   ));
 
+  const showOnVoteImage = (
+    <div className={styles.previewImageContainer}>
+      <div className={styles.previewNoteContainer}>
+        <div className={styles.votingModeDot}></div>
+        <div>voting</div>
+      </div>
+      <img src={props.firebaseImage} style={{ width: "100%" }} alt="" />
+    </div>
+  );
+
   return (
     <div>
       <div className={styles.dropzoneContainer}>
@@ -64,7 +74,8 @@ export default function Dropzone(props) {
           <input {...getInputProps()} />
           <div className={styles.dropzoneText}>
             {props.firebaseImage ? (
-              <img style={{ width: "100%" }} src={props.firebaseImage} alt="" />
+              // <img style={{ width: "100%" }} src={props.firebaseImage} alt="" />
+              showOnVoteImage
             ) : props.previewImage ? (
               showPreveiw
             ) : (
