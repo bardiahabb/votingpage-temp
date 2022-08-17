@@ -76,7 +76,7 @@ export default function Dropzone(props) {
                 />
                 <div>Upload Designe {props.designNumber}</div>
                 <div>Max Size: 5Mb</div>
-                <div>Best Aspect: 2:3</div>
+                <div>Best Aspect: 3:2</div>
               </div>
             )}
           </div>
