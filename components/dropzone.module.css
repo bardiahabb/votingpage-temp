@@ -1,0 +1,71 @@
+.dropzoneContainer {
+}
+
+.dropzone {
+  background-color: rgb(243, 243, 243);
+  /* padding-top: 30px;
+  padding-bottom: 30px; */
+  min-height: 350px;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+  margin-top: 30px;
+}
+.dropzoneActive {
+  background-color: rgb(250, 250, 250);
+  /* padding-top: 30px;
+  padding-bottom: 30px; */
+  min-height: 350px;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16);
+  margin-top: 30px;
+}
+
+.dropzoneText {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: rgb(167, 167, 167);
+}
+
+.previewImageContainer{
+  position: relative;
+}
+
+.previewNoteContainer{
+  position: absolute;
+  display: flex;
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 30px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  align-items: center;
+  width: fit-content;
+  right: 10px;
+  top: 10px;
+}
+
+.previewModeDot{
+  width: 9px;
+  height: 9px;
+  border-radius: 50px;
+  background-image: radial-gradient(rgb(255, 115, 0) , rgba(0,0,0,0) );
+  display: block;
+  margin-right: 6px;
+}
+
+.test {
+  background-color: blueviolet;
+}
