@@ -45,7 +45,7 @@
 .previewNoteContainer {
   position: absolute;
   display: flex;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(100, 100, 100, 0.6);
   backdrop-filter: blur(2px);
   border-radius: 30px;
   padding-bottom: 6px;
@@ -95,7 +95,7 @@
 .realNoteContainer {
   position: absolute;
   display: flex;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(100, 100, 100, 0.6);
   backdrop-filter: blur(2px);
   border-radius: 30px;
   padding-bottom: 6px;
@@ -114,4 +114,8 @@
 
 .test {
   background-color: blueviolet;
+}
+
+.noteText {
+  color: rgb(255, 255, 255);
 }

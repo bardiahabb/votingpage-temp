@@ -48,7 +48,7 @@ export default function Dropzone(props) {
     <div key={file.preview} className={styles.previewImageContainer}>
       <div className={styles.previewNoteContainer}>
         <div className={styles.previewModeDot}></div>
-        <div>preview</div>
+        <div className={styles.noteText}>preview</div>
       </div>
       <img
         src={file.preview}
@@ -72,7 +72,7 @@ export default function Dropzone(props) {
         }
       >
         <div className={styles.votingModeDot}></div>
-        <div>voting</div>
+        <div className={styles.noteText}>voting</div>
       </div>
       <img
         onLoad={imageLoadHandle}
