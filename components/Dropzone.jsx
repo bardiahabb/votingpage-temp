@@ -74,7 +74,7 @@ export default function Dropzone(props) {
                   src="/image-upload-icon.svg"
                   alt=""
                 />
-                <div>Upload Designe 1</div>
+                <div>Upload Designe {props.designNumber}</div>
                 <div>Max Size: 5Mb</div>
                 <div>Best Aspect: 2:3</div>
               </div>
