@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Dropzone from "../components/Dropzone";
@@ -22,8 +22,57 @@ export default function Home() {
   const [dropedImages2, setDropedImages2] = useState(null);
   const [previewMode1, setPreviewMode1] = useState(true);
   const [previewMode2, setPreviewMode2] = useState(true);
-  const [design1NoteNumbers, setDesign1NoteNumbers] = useState(0);
-  const [design2NoteNumbers, setDesign2NoteNumbers] = useState(0);
+  const [design1VoteNumbers, setDesign1VoteNumbers] = useState(0);
+  const [design2VoteNumbers, setDesign2VoteNumbers] = useState(0);
+  const [pagemode, setPagemode] = useState("voting");
+  const [votingPageID, setVotingPageID] = useState("0t5sNBSyYljl28rSUESi");
+
+  const voteDesign1 = async () => {
+    const docRef = doc(db, "images", votingPageID);
+    const docSnap = await getDoc(docRef);
+    const design1VoteNumbers = docSnap.data().design1Votes;
+    await updateDoc(docRef, {
+      design1Votes: design1VoteNumbers + 1,
+    });
+    setDesign1VoteNumbers(design1VoteNumbers + 1)
+  };
+
+  const voteDesign2 = async () => {
+    const docRef = doc(db, "images", votingPageID);
+    const docSnap = await getDoc(docRef);
+    const design2VoteNumbers = docSnap.data().design2Votes;
+    await updateDoc(docRef, {
+      design2Votes: design2VoteNumbers + 1,
+    });
+    setDesign2VoteNumbers(design2VoteNumbers + 1)
+  };
+
+  const unvoteDesign1 = async () => {
+    const docRef = doc(db, "images", votingPageID);
+    const docSnap = await getDoc(docRef);
+    const design1VoteNumbers = docSnap.data().design1Votes;
+    await updateDoc(docRef, {
+      design1Votes: design1VoteNumbers - 1,
+    });
+    setDesign1VoteNumbers(design1VoteNumbers - 1)
+  };
+
+  const unvoteDesign2 = async () => {
+    const docRef = doc(db, "images", votingPageID);
+    const docSnap = await getDoc(docRef);
+    const design2VoteNumbers = docSnap.data().design2Votes;
+    await updateDoc(docRef, {
+      design2Votes: design2VoteNumbers - 1,
+    });
+    setDesign2VoteNumbers(design2VoteNumbers - 1)
+  };
+
+  const downloadImages = async () => {
+    const imageURLRef = doc(db, "images", votingPageID);
+    const docSnap = await getDoc(imageURLRef);
+    setFirebaseImage1(docSnap.data().image1DownloadUrl);
+    setFirebaseImage2(docSnap.data().image2DownloadUrl);
+  };
 
   const uploadImages = async () => {
     const docRef = await addDoc(collection(db, "images"), {
@@ -34,8 +83,8 @@ export default function Home() {
     });
 
     const docSnap = await getDoc(docRef);
-    setDesign1NoteNumbers(docSnap.data().design1Votes);
-    setDesign2NoteNumbers(docSnap.data().design2Votes);
+    setDesign1VoteNumbers(docSnap.data().design1Votes);
+    setDesign2VoteNumbers(docSnap.data().design2Votes);
     await Promise.all(
       dropedImages1.map((image) => {
         const ImageRef = ref(storage, `images/${docRef.id}/${image.path}`);
@@ -64,6 +113,12 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    if (pagemode == "voting") {
+      downloadImages();
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -72,24 +127,34 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Dropzone
+        vote={voteDesign1}
+        unvote={unvoteDesign1}
         designNumber={1}
         votingPageID={"MIL38oANnW4hia6SB3eu"}
         setdropimage={setDropedImages1}
         previewImage={dropedImages1}
         preview={previewMode1}
         firebaseImage={firebaseImage1}
-        voteNumber={design1NoteNumbers}
+        voteNumber={design1VoteNumbers}
+        pagemode={pagemode}
       />
       <Dropzone
+        vote={voteDesign2}
+        unvote={unvoteDesign2}
         designNumber={2}
         votingPageID={"MIL38oANnW4hia6SB3eu"}
         setdropimage={setDropedImages2}
         previewImage={dropedImages2}
         preview={previewMode2}
         firebaseImage={firebaseImage2}
-        voteNumber={design2NoteNumbers}
+        voteNumber={design2VoteNumbers}
+        pagemode={pagemode}
       />
-      <button onClick={uploadImages}>click to upload</button>
+      {!pagemode == "voting" ? (
+        <button onClick={uploadImages}>click to upload</button>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
