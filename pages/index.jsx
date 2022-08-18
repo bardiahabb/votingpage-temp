@@ -73,7 +73,7 @@ export default function Home() {
       </Head>
       <Dropzone
         designNumber={1}
-        votingPageID={"MIL38oANnW4hia6SB3eu"}
+        votingPageID={"xshrMf0fNV6CQl8GWxYW"}
         setdropimage={setDropedImages1}
         previewImage={dropedImages1}
         preview={previewMode1}
@@ -82,7 +82,7 @@ export default function Home() {
       />
       <Dropzone
         designNumber={2}
-        votingPageID={"MIL38oANnW4hia6SB3eu"}
+        votingPageID={"xshrMf0fNV6CQl8GWxYW"}
         setdropimage={setDropedImages2}
         previewImage={dropedImages2}
         preview={previewMode2}

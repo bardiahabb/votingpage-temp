@@ -25,7 +25,7 @@ export default function Home() {
   const [design1VoteNumbers, setDesign1VoteNumbers] = useState(0);
   const [design2VoteNumbers, setDesign2VoteNumbers] = useState(0);
   const [pagemode, setPagemode] = useState("voting");
-  const [votingPageID, setVotingPageID] = useState("0t5sNBSyYljl28rSUESi");
+  const [votingPageID, setVotingPageID] = useState("xshrMf0fNV6CQl8GWxYW");
 
   const voteDesign1 = async () => {
     const docRef = doc(db, "images", votingPageID);
@@ -34,7 +34,7 @@ export default function Home() {
     await updateDoc(docRef, {
       design1Votes: design1VoteNumbers + 1,
     });
-    setDesign1VoteNumbers(design1VoteNumbers + 1)
+    setDesign1VoteNumbers(design1VoteNumbers + 1);
   };
 
   const voteDesign2 = async () => {
@@ -44,7 +44,7 @@ export default function Home() {
     await updateDoc(docRef, {
       design2Votes: design2VoteNumbers + 1,
     });
-    setDesign2VoteNumbers(design2VoteNumbers + 1)
+    setDesign2VoteNumbers(design2VoteNumbers + 1);
   };
 
   const unvoteDesign1 = async () => {
@@ -54,7 +54,7 @@ export default function Home() {
     await updateDoc(docRef, {
       design1Votes: design1VoteNumbers - 1,
     });
-    setDesign1VoteNumbers(design1VoteNumbers - 1)
+    setDesign1VoteNumbers(design1VoteNumbers - 1);
   };
 
   const unvoteDesign2 = async () => {
@@ -64,7 +64,7 @@ export default function Home() {
     await updateDoc(docRef, {
       design2Votes: design2VoteNumbers - 1,
     });
-    setDesign2VoteNumbers(design2VoteNumbers - 1)
+    setDesign2VoteNumbers(design2VoteNumbers - 1);
   };
 
   const downloadImages = async () => {
@@ -130,7 +130,7 @@ export default function Home() {
         vote={voteDesign1}
         unvote={unvoteDesign1}
         designNumber={1}
-        votingPageID={"MIL38oANnW4hia6SB3eu"}
+        votingPageID={"xshrMf0fNV6CQl8GWxYW"}
         setdropimage={setDropedImages1}
         previewImage={dropedImages1}
         preview={previewMode1}
@@ -142,7 +142,7 @@ export default function Home() {
         vote={voteDesign2}
         unvote={unvoteDesign2}
         designNumber={2}
-        votingPageID={"MIL38oANnW4hia6SB3eu"}
+        votingPageID={"xshrMf0fNV6CQl8GWxYW"}
         setdropimage={setDropedImages2}
         previewImage={dropedImages2}
         preview={previewMode2}
