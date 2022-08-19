@@ -128,14 +128,31 @@
   margin-left: 30px;
 }
 
-.thumbIcon {
+.thumbIconNotVoted {
   width: 25px;
   height: 25px;
   fill: rgb(214, 214, 214);
 }
 
-.thumbIcon:hover{
+.thumbIconVoted {
+  width: 25px;
+  height: 25px;
+  fill: rgb(245, 213, 71);
+}
+
+.thumbIconNotVoted:hover {
   fill: rgb(243, 234, 149);
+}
+
+.thumbIconNotVoted:active {
+  fill: rgb(245, 213, 71);
+  transition: all ease-in-out 0.6s;
+  transform: scale(1.2);
+}
+
+.thumbIconVoted:active {
+  transition: all ease-in-out 0.6s;
+  transform: scale(1.2);
 }
 
 .thumbIconContainer {
@@ -154,4 +171,9 @@
 }
 .thumbIconContainer:hover {
   cursor: pointer;
+}
+
+.thumbIconContainer:active {
+  background-color: white;
+  transition: all 0.3s ease-in-out;
 }

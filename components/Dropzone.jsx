@@ -58,7 +58,13 @@ export default function Dropzone(props) {
   };
 
   const voteHandle = () => {
-    props.vote();
+    if (props.voted) {
+      props.unvote();
+      props.votedState(false);
+    } else {
+      props.vote();
+      props.votedState(true);
+    }
   };
 
   const showOnVoteImage = (
@@ -92,7 +98,9 @@ export default function Dropzone(props) {
           className={styles.thumbIconContainer}
         >
           <svg
-            className={styles.thumbIcon}
+            className={
+              props.voted ? styles.thumbIconVoted : styles.thumbIconNotVoted
+            }
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"

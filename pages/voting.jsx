@@ -26,6 +26,8 @@ export default function Home() {
   const [design2VoteNumbers, setDesign2VoteNumbers] = useState(0);
   const [pagemode, setPagemode] = useState("voting");
   const [votingPageID, setVotingPageID] = useState("xshrMf0fNV6CQl8GWxYW");
+  const [design1Voted, setDesign1Voted] = useState(false);
+  const [design2Voted, setDesign2Voted] = useState(false);
 
   const voteDesign1 = async () => {
     const docRef = doc(db, "images", votingPageID);
@@ -115,8 +117,17 @@ export default function Home() {
 
   useEffect(() => {
     if (pagemode == "voting") {
-      downloadImages();
+      (async () => {
+        downloadImages();
+        const docRef = doc(db, "images", votingPageID);
+        const docSnap = await getDoc(docRef);
+        const design1VoteNumbers = docSnap.data().design1Votes;
+        const design2VoteNumbers = docSnap.data().design2Votes;
+        setDesign1VoteNumbers(design1VoteNumbers);
+        setDesign2VoteNumbers(design2VoteNumbers);
+      })();
     }
+    return () => {};
   }, []);
 
   return (
@@ -137,6 +148,8 @@ export default function Home() {
         firebaseImage={firebaseImage1}
         voteNumber={design1VoteNumbers}
         pagemode={pagemode}
+        voted={design1Voted}
+        votedState={setDesign1Voted}
       />
       <Dropzone
         vote={voteDesign2}
@@ -149,6 +162,8 @@ export default function Home() {
         firebaseImage={firebaseImage2}
         voteNumber={design2VoteNumbers}
         pagemode={pagemode}
+        voted={design2Voted}
+        votedState={setDesign2Voted}
       />
       {!pagemode == "voting" ? (
         <button onClick={uploadImages}>click to upload</button>
