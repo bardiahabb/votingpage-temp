@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Dropzone from "../components/Dropzone";
+import CommentsForm from "../components/CommetsForm";
+import Comment from "../components/comment";
 import { db, storage } from "../firebase";
 import {
   addDoc,
@@ -28,6 +30,7 @@ export default function Home() {
   const [votingPageID, setVotingPageID] = useState("xshrMf0fNV6CQl8GWxYW");
   const [design1Voted, setDesign1Voted] = useState(false);
   const [design2Voted, setDesign2Voted] = useState(false);
+  const [commentArray, setCommentArray] = useState([1, 2]);
 
   const voteDesign1 = async () => {
     const docRef = doc(db, "images", votingPageID);
@@ -115,6 +118,21 @@ export default function Home() {
     );
   };
 
+  const sendComment = async (comment) => {
+    const docRef = doc(db, "images", votingPageID);
+    await updateDoc(docRef, {
+      comments: arrayUnion({
+        userImage:
+          "https://st3.depositphotos.com/6672868/13701/v/380/depositphotos_137014128-stock-illustration-user-profile-icon.jpg?forcejpeg=true",
+        userName: "user",
+        text: comment,
+        time: new Date(),
+      }),
+    });
+    const docSnap = await getDoc(docRef);
+    setCommentArray(docSnap.data().comments);
+  };
+
   useEffect(() => {
     if (pagemode == "voting") {
       (async () => {
@@ -125,6 +143,7 @@ export default function Home() {
         const design2VoteNumbers = docSnap.data().design2Votes;
         setDesign1VoteNumbers(design1VoteNumbers);
         setDesign2VoteNumbers(design2VoteNumbers);
+        setCommentArray(docSnap.data().comments);
       })();
     }
     return () => {};
@@ -168,8 +187,11 @@ export default function Home() {
       {!pagemode == "voting" ? (
         <button onClick={uploadImages}>click to upload</button>
       ) : (
-        ""
+        <CommentsForm sendComment={sendComment} />
       )}
+      {commentArray?.map((comment) => (
+        <Comment key={comment.time} comment={comment.text} />
+      ))}
     </div>
   );
 }

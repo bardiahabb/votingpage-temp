@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Dropzone from "../components/Dropzone";
+
 import { db, storage } from "../firebase";
 import {
   addDoc,
