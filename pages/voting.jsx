@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Dropzone from "../components/Dropzone";
 import CommentsForm from "../components/CommetsForm";
-import Comment from "../components/comment";
+import Comment from "../components/Comment";
 import { db, storage } from "../firebase";
 import {
   addDoc,
