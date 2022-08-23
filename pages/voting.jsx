@@ -31,6 +31,7 @@ export default function Home() {
   const [design1Voted, setDesign1Voted] = useState(false);
   const [design2Voted, setDesign2Voted] = useState(false);
   const [commentArray, setCommentArray] = useState([1, 2]);
+  const [userVoted, setUserVoted] =useState(false);
 
   const voteDesign1 = async () => {
     const docRef = doc(db, "images", votingPageID);
@@ -169,6 +170,8 @@ export default function Home() {
         pagemode={pagemode}
         voted={design1Voted}
         votedState={setDesign1Voted}
+        setUserVoted={setUserVoted}
+        userVoted = {userVoted}
       />
       <Dropzone
         vote={voteDesign2}
@@ -183,6 +186,8 @@ export default function Home() {
         pagemode={pagemode}
         voted={design2Voted}
         votedState={setDesign2Voted}
+        setUserVoted={setUserVoted}
+        userVoted = {userVoted}
       />
       {!pagemode == "voting" ? (
         <button onClick={uploadImages}>click to upload</button>

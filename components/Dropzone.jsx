@@ -61,9 +61,11 @@ export default function Dropzone(props) {
     if (props.voted) {
       props.unvote();
       props.votedState(false);
-    } else {
+      props.setUserVoted(false);
+    } else if (!props.userVoted) {
       props.vote();
       props.votedState(true);
+      props.setUserVoted(true);
     }
   };
 
