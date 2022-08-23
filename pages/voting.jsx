@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Dropzone from "../components/Dropzone";
 import CommentsForm from "../components/CommetsForm";
@@ -17,21 +16,21 @@ import {
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
-export default function Home() {
-  const [firebaseImage1, setFirebaseImage1] = useState(null);
+export default function VotingPage() {
+  const [design1DownloadUrl, setDesign1DownloadUrl] = useState(null);
   const [dropedImages1, setDropedImages1] = useState(null);
-  const [firebaseImage2, setFirebaseImage2] = useState(null);
+  const [design2DownloadUrl, setDesign2DownloadUrl] = useState(null);
   const [dropedImages2, setDropedImages2] = useState(null);
-  const [previewMode1, setPreviewMode1] = useState(true);
-  const [previewMode2, setPreviewMode2] = useState(true);
+  const [previewMode1, setPreviewMode1] = useState(false);
+  const [previewMode2, setPreviewMode2] = useState(false);
   const [design1VoteNumbers, setDesign1VoteNumbers] = useState(0);
   const [design2VoteNumbers, setDesign2VoteNumbers] = useState(0);
   const [pagemode, setPagemode] = useState("voting");
   const [votingPageID, setVotingPageID] = useState("xshrMf0fNV6CQl8GWxYW");
   const [design1Voted, setDesign1Voted] = useState(false);
   const [design2Voted, setDesign2Voted] = useState(false);
-  const [commentArray, setCommentArray] = useState([1, 2]);
-  const [userVoted, setUserVoted] =useState(false);
+  const [commentArray, setCommentArray] = useState();
+  const [userVoted, setUserVoted] = useState(false);
 
   const voteDesign1 = async () => {
     const docRef = doc(db, "images", votingPageID);
@@ -73,11 +72,11 @@ export default function Home() {
     setDesign2VoteNumbers(design2VoteNumbers - 1);
   };
 
-  const downloadImages = async () => {
+  const downloadDesigns = async () => {
     const imageURLRef = doc(db, "images", votingPageID);
     const docSnap = await getDoc(imageURLRef);
-    setFirebaseImage1(docSnap.data().image1DownloadUrl);
-    setFirebaseImage2(docSnap.data().image2DownloadUrl);
+    setDesign1DownloadUrl(docSnap.data().image1DownloadUrl);
+    setDesign2DownloadUrl(docSnap.data().image2DownloadUrl);
   };
 
   const uploadImages = async () => {
@@ -96,7 +95,7 @@ export default function Home() {
         const ImageRef = ref(storage, `images/${docRef.id}/${image.path}`);
         uploadBytes(ImageRef, image, "data_url").then(async () => {
           const downloadUrl = await getDownloadURL(ImageRef);
-          setFirebaseImage1(downloadUrl);
+          setDesign1DownloadUrl(downloadUrl);
           setPreviewMode1(false);
           await updateDoc(doc(db, "images", docRef.id), {
             image1DownloadUrl: arrayUnion(downloadUrl),
@@ -109,7 +108,7 @@ export default function Home() {
         const ImageRef = ref(storage, `images/${docRef.id}/${image.path}`);
         uploadBytes(ImageRef, image, "data_url").then(async () => {
           const downloadUrl = await getDownloadURL(ImageRef);
-          setFirebaseImage2(downloadUrl);
+          setDesign2DownloadUrl(downloadUrl);
           setPreviewMode2(false);
           await updateDoc(doc(db, "images", docRef.id), {
             image2DownloadUrl: arrayUnion(downloadUrl),
@@ -137,7 +136,7 @@ export default function Home() {
   useEffect(() => {
     if (pagemode == "voting") {
       (async () => {
-        downloadImages();
+        downloadDesigns();
         const docRef = doc(db, "images", votingPageID);
         const docSnap = await getDoc(docRef);
         const design1VoteNumbers = docSnap.data().design1Votes;
@@ -165,13 +164,14 @@ export default function Home() {
         setdropimage={setDropedImages1}
         previewImage={dropedImages1}
         preview={previewMode1}
-        firebaseImage={firebaseImage1}
+        setPreviewMode={setPreviewMode1}
+        firebaseImage={design1DownloadUrl}
         voteNumber={design1VoteNumbers}
         pagemode={pagemode}
         voted={design1Voted}
         votedState={setDesign1Voted}
         setUserVoted={setUserVoted}
-        userVoted = {userVoted}
+        userVoted={userVoted}
       />
       <Dropzone
         vote={voteDesign2}
@@ -181,15 +181,16 @@ export default function Home() {
         setdropimage={setDropedImages2}
         previewImage={dropedImages2}
         preview={previewMode2}
-        firebaseImage={firebaseImage2}
+        setPreviewMode={setPreviewMode2}
+        firebaseImage={design2DownloadUrl}
         voteNumber={design2VoteNumbers}
         pagemode={pagemode}
         voted={design2Voted}
         votedState={setDesign2Voted}
         setUserVoted={setUserVoted}
-        userVoted = {userVoted}
+        userVoted={userVoted}
       />
-      {!pagemode == "voting" ? (
+      {!(pagemode == "voting") ? (
         <button onClick={uploadImages}>click to upload</button>
       ) : (
         <CommentsForm sendComment={sendComment} />

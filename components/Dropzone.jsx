@@ -1,23 +1,11 @@
 import styles from "./dropzone.module.css";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { db, storage } from "../firebase";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 export default function Dropzone(props) {
-  const [dropedImages, setDropedImages] = useState([]);
   const [firebaseImage, setFirebaseImage] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const votingPage = props.pagemode == "voting";
+  const isVotingPage = props.pagemode == "voting";
 
   const onDrop = useCallback((acceptedFiles) => {
     props.setdropimage(
@@ -27,13 +15,7 @@ export default function Dropzone(props) {
         })
       )
     );
-    setDropedImages(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      )
-    );
+    props.setPreviewMode(true);
   }, []);
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
@@ -69,9 +51,9 @@ export default function Dropzone(props) {
     }
   };
 
-  const showOnVoteImage = (
+  const votingDesignElement = (
     <div className={styles.realImageContainer}>
-      {!votingPage ? (
+      {!isVotingPage ? (
         <div
           className={
             imageLoaded
@@ -91,7 +73,7 @@ export default function Dropzone(props) {
         className={imageLoaded ? styles.imageLoaded : styles.imagenotLoaded}
         alt=""
       />
-      {votingPage ? (
+      {isVotingPage ? (
         <div
           onClick={voteHandle}
           style={
@@ -116,14 +98,14 @@ export default function Dropzone(props) {
     </div>
   );
 
-  const voteNumber = (
+  const voteCounter = (
     <div className={styles.voteNumber}>{props.voteNumber} votes</div>
   );
 
   return (
     <div>
       <div className={styles.dropzoneContainer}>
-        {!votingPage ? (
+        {!isVotingPage ? (
           <div
             {...getRootProps({
               className: isDragActive ? styles.dropzoneActive : styles.dropzone,
@@ -133,8 +115,8 @@ export default function Dropzone(props) {
             <div className={styles.dropzoneText}>
               {props.firebaseImage ? (
                 // <img style={{ width: "100%" }} src={props.firebaseImage} alt="" />
-                showOnVoteImage
-              ) : props.previewImage ? (
+                votingDesignElement
+              ) : props.preview ? (
                 showPreveiw
               ) : (
                 <div>
@@ -152,10 +134,10 @@ export default function Dropzone(props) {
           </div>
         ) : (
           <div className={styles.dropzoneActive}>
-            <div className={styles.dropzoneText}>{showOnVoteImage}</div>
+            <div className={styles.dropzoneText}>{votingDesignElement}</div>
           </div>
         )}
-        {props.firebaseImage ? voteNumber : ""}
+        {props.firebaseImage ? voteCounter : ""}
       </div>
     </div>
   );
